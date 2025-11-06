@@ -1,0 +1,40 @@
+<% content_for :title, "Welcome to User Management" %>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">
+        <i class="bi bi-people"></i>
+      </div>
+      <h2 class="auth-title">User Management</h2>
+      <p class="auth-subtitle">Welcome! Please sign in to continue or register for a new account.</p>
+    </div>
+
+    <div class="d-grid gap-2">
+      <%= link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-lg" %>
+      <%= link_to "Register", new_user_registration_path, class: "btn btn-outline-primary btn-lg" %>
+    </div>
+
+    <div class="auth-divider">
+      <span>Features</span>
+    </div>
+
+    <div class="row text-center">
+      <div class="col-4">
+        <i class="bi bi-shield-check text-primary display-6"></i>
+        <h6 class="mt-2">Secure</h6>
+        <small class="text-muted">Protected authentication</small>
+      </div>
+      <div class="col-4">
+        <i class="bi bi-lightning text-warning display-6"></i>
+        <h6 class="mt-2">Fast</h6>
+        <small class="text-muted">Real-time updates</small>
+      </div>
+      <div class="col-4">
+        <i class="bi bi-phone text-success display-6"></i>
+        <h6 class="mt-2">Responsive</h6>
+        <small class="text-muted">Mobile friendly</small>
+      </div>
+    </div>
+  </div>
+</div>
