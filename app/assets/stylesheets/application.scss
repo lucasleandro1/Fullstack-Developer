@@ -1,0 +1,10 @@
+// Custom styles (Bootstrap loaded via CDN in layout)
+@use "custom";
+@use "components/navbar";
+@use "components/forms";
+@use "components/cards";
+@use "components/tables";
+
+// Layout styles
+@use "layouts/dashboard";
+@use "layouts/authentication";
