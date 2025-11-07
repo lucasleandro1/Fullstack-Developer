@@ -108,29 +108,6 @@ yarn build --watch
 http://localhost:3000
 ```
 
-## ⚙️ Configuração
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```env
-# Database
-DATABASE_URL=sqlite3:storage/development.sqlite3
-
-# Redis (para Action Cable em produção)
-REDIS_URL=redis://localhost:6379/0
-
-# Email (opcional, para funcionalidades do Devise)
-SMTP_ADDRESS=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USERNAME=your-email@gmail.com
-SMTP_PASSWORD=your-app-password
-
-# Segurança
-SECRET_KEY_BASE=your-secret-key-base
-```
-
 ### Usuários de Teste
 
 Após rodar `rails db:seed`, você terá acesso a:
@@ -213,44 +190,6 @@ app/
     └── admin/
 ```
 
-### Service Layer
-
-O projeto utiliza **Service Objects** para encapsular lógica de negócio:
-
-```ruby
-# Exemplo de uso
-result = UserManagementService.create_user(user_params)
-if result.success?
-  redirect_to user_path(result.data)
-else
-  flash[:error] = result.error
-end
-```
-
-### Background Jobs
-
-Processamento assíncrono para operações pesadas:
-
-```ruby
-# Importação CSV
-UserImportJob.perform_later(import_id, current_user_id)
-```
-
-### Real-time Updates
-
-WebSockets para atualizações automáticas:
-
-```javascript
-// Dashboard em tempo real
-import consumer from "./consumer"
-
-consumer.subscriptions.create("DashboardChannel", {
-  received(data) {
-    updateDashboardMetrics(data)
-  }
-})
-```
-
 ## 🛡️ Segurança
 
 ### Implementações de Segurança
@@ -286,97 +225,5 @@ consumer.subscriptions.create("DashboardChannel", {
 
 - **DashboardChannel** - Métricas em tempo real
 - **ImportProgressChannel** - Status de importação
-
-## 🧪 Testes
-
-```bash
-# Executar testes
-bundle exec rspec
-
-# Com coverage
-bundle exec rspec --format documentation
-
-# Testes específicos
-bundle exec rspec spec/models/
-bundle exec rspec spec/services/
-```
-
-## 🚀 Deploy
-
-### Docker
-
-```bash
-# Build da imagem
-docker build -t user-management .
-
-# Executar container
-docker run -p 3000:3000 -e RAILS_ENV=production user-management
-```
-
-### Deploy Manual
-
-```bash
-# Preparar assets
-rails assets:precompile
-
-# Executar migrations
-rails db:migrate RAILS_ENV=production
-
-# Iniciar servidor
-rails server -e production
-```
-
-## 📈 Performance
-
-### Otimizações Implementadas
-
-- **Paginação** para grandes datasets
-- **Background jobs** para operações pesadas
-- **Caching** de consultas frequentes
-- **Lazy loading** de relacionamentos
-- **Asset pipeline** otimizado
-
-### Monitoramento
-
-- Logs estruturados com timestamps
-- Métricas de performance no dashboard
-- Alertas para operações demoradas
-
-## 🤝 Contribuição
-
-### Como Contribuir
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Crie um Pull Request
-
-### Padrões de Código
-
-- Siga as convenções do Ruby/Rails
-- Use o Rubocop para linting
-- Escreva testes para novas funcionalidades
-- Documente APIs e métodos complexos
-
-### Issues
-
-Use as **issues** do GitHub para:
-- Reportar bugs
-- Sugerir funcionalidades
-- Discutir melhorias
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 👨‍💻 Autor
-
-**Lucas Leandro**
-- GitHub: [@lucasleandro1](https://github.com/lucasleandro1)
-- LinkedIn: [Lucas Leandro](https://linkedin.com/in/lucasleandro)
-- Email: lucas@example.com
-
----
 
 ⭐ **Se este projeto foi útil, considere dar uma estrela!**
