@@ -31,8 +31,8 @@ class DashboardStatsService < ApplicationService
     {
       total: User.count,
       admins: User.where(role: "admin").count,
-      regular_users: User.where(role: "user").count,
-      recent: User.with_attached_avatar_image.order(created_at: :desc).limit(5),
+      users: User.where(role: "user").count,
+      recent: User.with_attached_avatar_image.order(created_at: :desc).limit(4),
       created_today: User.where(created_at: Date.current.beginning_of_day..Date.current.end_of_day).count,
       created_this_week: User.where(created_at: 1.week.ago..Time.current).count,
       created_this_month: User.where(created_at: 1.month.ago..Time.current).count

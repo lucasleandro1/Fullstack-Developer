@@ -26,7 +26,6 @@ class Admin::ImportsController < ApplicationController
       @import.file_name = params[:file].original_filename
 
       if @import.save
-        # Enqueue background job to process the import
         UserImportJob.perform_later(@import)
 
         redirect_to admin_import_path(@import),

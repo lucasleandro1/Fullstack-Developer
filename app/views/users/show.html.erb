@@ -95,42 +95,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Activity Summary (if admin) -->
-      <% if @user.admin? %>
-        <div class="card mt-4">
-          <div class="card-header">
-            <h5 class="card-title mb-0">
-              <i class="bi bi-activity me-2"></i>Admin Summary
-            </h5>
-          </div>
-          <div class="card-body">
-            <div class="row text-center">
-              <div class="col-md-3">
-                <h4 class="text-primary"><%= User.total_count %></h4>
-                <small class="text-muted">Total Users</small>
-              </div>
-              <div class="col-md-3">
-                <h4 class="text-success"><%= Import.where(status: 'completed').count %></h4>
-                <small class="text-muted">Completed Imports</small>
-              </div>
-              <div class="col-md-3">
-                <h4 class="text-warning"><%= Import.where(status: 'processing').count %></h4>
-                <small class="text-muted">Active Imports</small>
-              </div>
-              <div class="col-md-3">
-                <h4 class="text-info"><%= User.where('created_at > ?', 30.days.ago).count %></h4>
-                <small class="text-muted">New Users (30d)</small>
-              </div>
-            </div>
-            <div class="text-center mt-3">
-              <%= link_to admin_dashboard_path, class: "btn btn-primary" do %>
-                <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>

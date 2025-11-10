@@ -16,7 +16,7 @@ module DashboardBroadcaster
         stats: {
           total_users: User.total_count,
           admin_users: User.admin_count,
-          regular_users: User.user_count
+          users: User.user_count
         },
         timestamp: Time.current.iso8601
       }

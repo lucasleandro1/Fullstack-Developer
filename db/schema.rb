@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_06_192110) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_10_195421) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -40,19 +40,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_06_192110) do
   end
 
   create_table "imports", force: :cascade do |t|
-    t.string "file_name", null: false
-    t.string "status", default: "pending", null: false
-    t.integer "progress", default: 0
-    t.integer "total_rows", default: 0
-    t.integer "processed_rows", default: 0
-    t.integer "successful_rows", default: 0
-    t.integer "failed_rows", default: 0
+    t.string "file_name"
+    t.string "status"
+    t.float "progress", default: 0.0, null: false
+    t.integer "total_rows", default: 0, null: false
+    t.integer "processed_rows", default: 0, null: false
     t.text "error_details"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_imports_on_created_at"
-    t.index ["status"], name: "index_imports_on_status"
+    t.integer "successful_rows", default: 0, null: false
+    t.integer "failed_rows", default: 0, null: false
     t.index ["user_id"], name: "index_imports_on_user_id"
   end
 

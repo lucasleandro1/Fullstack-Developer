@@ -35,7 +35,8 @@ gem "roo", "~> 2.9"
 gem "csv"
 
 # For background job processing
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 6.5"
+gem "redis", "~> 4.8"
 
 # For authorization (CanCanCan)
 gem "cancancan"

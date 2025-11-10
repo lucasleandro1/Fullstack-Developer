@@ -4,29 +4,46 @@ class Import < ApplicationRecord
 
   # Status enum
   STATUSES = %w[pending processing completed failed].freeze
-  
+
   validates :file_name, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :progress, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
-  
+
+  # Set default values
+  after_initialize :set_defaults, if: :new_record?
+
   scope :recent, -> { order(created_at: :desc) }
   scope :by_status, ->(status) { where(status: status) if status.present? }
 
+  private
+
+  def set_defaults
+    self.status ||= "pending"
+    self.progress ||= 0.0
+    self.total_rows ||= 0
+    self.processed_rows ||= 0
+    self.successful_rows ||= 0
+    self.failed_rows ||= 0
+    self.error_details ||= ""
+  end
+
+  public
+
   # Status helpers
   def pending?
-    status == 'pending'
+    status == "pending"
   end
 
   def processing?
-    status == 'processing'
+    status == "processing"
   end
 
   def completed?
-    status == 'completed'
+    status == "completed"
   end
 
   def failed?
-    status == 'failed'
+    status == "failed"
   end
 
   # Progress calculation
@@ -58,11 +75,11 @@ class Import < ApplicationRecord
 
   def estimated_time_remaining
     return nil unless processing? && processed_rows > 0
-    
+
     elapsed_time = Time.current - updated_at
     avg_time_per_row = elapsed_time / processed_rows
     remaining_rows = total_rows - processed_rows
-    
+
     (remaining_rows * avg_time_per_row).seconds
   end
 end

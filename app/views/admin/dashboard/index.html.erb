@@ -1,30 +1,27 @@
 <% content_for :title, "Admin Dashboard" %>
 
 <div class="dashboard-container">
-  <div class="dashboard-header">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1 class="dashboard-title">Admin Dashboard</h1>
-          <p class="dashboard-subtitle">
-            Welcome back, <%= current_user.display_name %>! 
-            <span class="live-indicator">Live</span>
-          </p>
-        </div>
-        <div>
-          <%= link_to admin_users_path, class: "btn btn-primary" do %>
-            <i class="bi bi-people me-2"></i>Manage Users
-          <% end %>
-          <%= link_to admin_imports_path, class: "btn btn-outline-primary ms-2" do %>
-            <i class="bi bi-upload me-2"></i>Import Users
-          <% end %>
-        </div>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="dashboard-title">Admin Dashboard</h1>
+        <p class="dashboard-subtitle">
+          Welcome back, <%= current_user.display_name %>! 
+          <span class="live-indicator">Live</span>
+        </p>
+      </div>
+      <div>
+        <%= link_to admin_users_path, class: "btn btn-primary" do %>
+          <i class="bi bi-people me-2"></i>Manage Users
+        <% end %>
+        <%= link_to admin_imports_path, class: "btn btn-outline-primary ms-2" do %>
+          <i class="bi bi-upload me-2"></i>Import Users
+        <% end %>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <!-- Statistics Cards -->
     <div class="dashboard-stats">
       <div class="row">
         <div class="col-md-4">
@@ -62,7 +59,7 @@
                 <i class="bi bi-person"></i>
               </div>
               <div class="stats-content">
-                <h2 class="stats-number" id="regular-users"><%= @user_stats[:regular_users] %></h2>
+                <h2 class="stats-number" id="regular-users"><%= @user_stats[:users] %></h2>
                 <p class="stats-label">Regular Users</p>
               </div>
             </div>
@@ -71,10 +68,8 @@
       </div>
     </div>
 
-    <!-- Dashboard Content -->
     <div class="dashboard-content">
       <div class="row">
-        <!-- Recent Users -->
         <div class="col-lg-8">
           <div class="card">
             <div class="card-header">
@@ -148,7 +143,6 @@
           </div>
         </div>
 
-        <!-- Quick Stats -->
         <div class="col-lg-4">
           <div class="card">
             <div class="card-header">
@@ -176,33 +170,6 @@
               </div>
             </div>
           </div>
-
-          <!-- System Info -->
-          <div class="card mt-4">
-            <div class="card-header">
-              <h5 class="card-title">
-                <i class="bi bi-info-circle me-2"></i>System Information
-              </h5>
-            </div>
-            <div class="card-body">
-              <div class="row text-center">
-                <div class="col-6">
-                  <div class="text-primary">
-                    <i class="bi bi-gem display-4"></i>
-                  </div>
-                  <h6 class="mt-2">Rails</h6>
-                  <small class="text-muted"><%= Rails.version %></small>
-                </div>
-                <div class="col-6">
-                  <div class="text-danger">
-                    <i class="bi bi-code-square display-4"></i>
-                  </div>
-                  <h6 class="mt-2">Ruby</h6>
-                  <small class="text-muted"><%= RUBY_VERSION %></small>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -211,7 +178,6 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Subscribe to dashboard updates
     if (typeof App !== 'undefined' && App.cable) {
       App.dashboard = App.cable.subscriptions.create("DashboardChannel", {
         received: function(data) {
@@ -223,10 +189,9 @@
     }
     
     function updateDashboardStats(stats) {
-      // Update the statistics with animation
       animateNumber('total-users', stats.total_users);
       animateNumber('admin-users', stats.admin_users);
-      animateNumber('regular-users', stats.regular_users);
+      animateNumber('regular-users', stats.users);
     }
     
     function animateNumber(elementId, newValue) {

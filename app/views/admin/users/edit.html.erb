@@ -1,7 +1,6 @@
 <% content_for :title, "Edit User - #{@user.display_name}" %>
 
 <div class="container">
-  <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h1>Edit User</h1>
@@ -18,7 +17,6 @@
   </div>
 
   <div class="row">
-    <!-- Current Profile Preview -->
     <div class="col-lg-4">
       <div class="card user-card">
         <div class="card-header">
@@ -49,7 +47,6 @@
         </div>
       </div>
 
-      <!-- Account Info -->
       <div class="card mt-3">
         <div class="card-header">
           <h6 class="card-title mb-0">
@@ -79,7 +76,6 @@
       </div>
     </div>
 
-    <!-- Edit Form -->
     <div class="col-lg-8">
       <%= form_with model: [:admin, @user], local: true, html: { 
             multipart: true, 
@@ -87,8 +83,7 @@
             novalidate: true,
             id: "edit-user-form"
           } do |form| %>
-        
-        <!-- Personal Information -->
+
         <div class="card">
           <div class="card-header">
             <h5 class="card-title mb-0">
@@ -172,7 +167,6 @@
           </div>
         </div>
 
-        <!-- Password Section -->
         <div class="card mt-3">
           <div class="card-header">
             <h5 class="card-title mb-0">
@@ -180,11 +174,6 @@
             </h5>
           </div>
           <div class="card-body">
-            <div class="alert alert-info" role="alert">
-              <i class="bi bi-info-circle me-2"></i>
-              <strong>Password Change:</strong> Leave password fields empty to keep the current password unchanged.
-            </div>
-
             <div class="row">
               <div class="col-md-6">
                 <%= form.label :password, "New Password", class: "form-label" %>
@@ -225,7 +214,6 @@
           </div>
         </div>
 
-        <!-- Warning for Current User -->
         <% if @user == current_user %>
           <div class="alert alert-warning mt-3" role="alert">
             <i class="bi bi-exclamation-triangle me-2"></i>
@@ -233,7 +221,6 @@
           </div>
         <% end %>
 
-        <!-- Form Actions -->
         <div class="card mt-3">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
@@ -263,10 +250,8 @@
   </div>
 </div>
 
-<!-- JavaScript for form enhancements -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Role description updates
   const roleSelect = document.getElementById('user_role');
   const roleDescription = document.getElementById('role-description');
   
@@ -280,7 +265,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Password confirmation validation
   const passwordField = document.getElementById('password-field');
   const confirmField = document.getElementById('password-confirmation-field');
   
@@ -301,7 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmField.addEventListener('input', validatePasswordMatch);
   }
 
-  // Avatar preview
   const avatarUpload = document.getElementById('avatar-upload');
   if (avatarUpload) {
     avatarUpload.addEventListener('change', function(e) {
@@ -319,7 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Form validation
   const form = document.getElementById('edit-user-form');
   if (form) {
     form.addEventListener('submit', function(e) {

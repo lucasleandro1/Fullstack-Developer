@@ -6,22 +6,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
 
-  # Active Storage for avatar image
   has_one_attached :avatar_image
+  has_many :imports, dependent: :destroy
 
-  # Validations
   validates :full_name, presence: true, length: { minimum: 2, maximum: 100 }
   validates :role, presence: true, inclusion: { in: %w[user admin] }
   validates :avatar_url, format: { with: URI::DEFAULT_PARSER.make_regexp([ "http", "https" ]) }, allow_blank: true
 
-  # Enums
   enum :role, { user: "user", admin: "admin" }
 
-  # Scopes
   scope :admins, -> { where(role: "admin") }
-  scope :regular_users, -> { where(role: "user") }
+  scope :users, -> { where(role: "user") }
 
-  # Methods
   def admin?
     role == "admin"
   end
@@ -50,7 +46,6 @@ class User < ApplicationRecord
     end
   end
 
-  # Class methods
   def self.total_count
     count
   end
@@ -60,6 +55,6 @@ class User < ApplicationRecord
   end
 
   def self.user_count
-    regular_users.count
+    users.count
   end
 end

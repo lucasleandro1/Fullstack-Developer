@@ -19,28 +19,24 @@ class UserImportJob < ApplicationJob
   def process_import(import)
     file_path = download_file(import)
 
-    # Use Roo to parse the spreadsheet
     spreadsheet = open_spreadsheet(file_path, import.file_name)
     headers = spreadsheet.row(1)
 
     validate_headers(headers, import)
 
-    total_rows = spreadsheet.last_row - 1 # Exclude header row
+    total_rows = spreadsheet.last_row - 1
     import.update!(total_rows: total_rows)
 
     (2..spreadsheet.last_row).each_with_index do |row_num, index|
       row = spreadsheet.row(row_num)
       process_row(row, headers, import)
 
-      # Update progress every 10 rows or on last row
       if (index + 1) % 10 == 0 || (index + 1) == total_rows
         import.update_progress!
-        # Broadcast progress via ActionCable
         broadcast_progress(import)
       end
     end
 
-    # Clean up temporary file
     File.delete(file_path) if File.exist?(file_path)
   end
 
@@ -83,11 +79,9 @@ class UserImportJob < ApplicationJob
       user = User.find_by(email: user_data[:email])
 
       if user
-        # Update existing user
         user.update!(user_data.except(:email))
         import.increment!(:successful_rows)
       else
-        # Create new user
         user = User.create!(user_data.merge(password: generate_password))
         import.increment!(:successful_rows)
       end

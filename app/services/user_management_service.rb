@@ -41,7 +41,6 @@ class UserManagementService < ApplicationService
   end
 
   def create_new_user
-    # Generate random password for new users
     params_with_password = filtered_params.merge(
       password: generate_secure_password,
       password_confirmation: nil
@@ -50,7 +49,6 @@ class UserManagementService < ApplicationService
     user = User.new(params_with_password)
 
     if user.save
-      # Send welcome email with password
       UserMailer.welcome_email(user, params_with_password[:password]).deliver_later
       success(user)
     else

@@ -2,18 +2,6 @@
 
 Um sistema completo de gerenciamento de usuários em Ruby on Rails com funcionalidades avançadas de autenticação, autorização baseada em roles e importação de usuários via CSV com processamento em background e atualizações em tempo real.
 
-## 📋 Índice
-
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias](#-tecnologias)
-- [Instalação](#-instalação)
-- [Configuração](#-configuração)
-- [Como Usar](#-como-usar)
-- [Arquitetura](#-arquitetura)
-- [Segurança](#-segurança)
-- [API](#-api)
-- [Contribuição](#-contribuição)
-
 ## ✨ Funcionalidades
 
 ### 🔐 **Autenticação e Autorização**
@@ -48,10 +36,8 @@ Um sistema completo de gerenciamento de usuários em Ruby on Rails com funcional
 ### Backend
 - **Ruby 3.2.0**
 - **Rails 7.x**
-- **SQLite** (desenvolvimento) / **PostgreSQL** (produção)
+- **SQLite** (desenvolvimento)
 - **Devise** (autenticação)
-- **Active Job** (background processing)
-- **Action Cable** (WebSockets)
 
 ### Frontend
 - **Bootstrap 5** (UI Framework)
@@ -68,12 +54,6 @@ Um sistema completo de gerenciamento de usuários em Ruby on Rails com funcional
 
 ## 🚀 Instalação
 
-### Pré-requisitos
-- Ruby 3.2.0 ou superior
-- Node.js 18+ e Yarn
-- SQLite3 (desenvolvimento)
-- Redis (para Action Cable em produção)
-
 ### Setup Local
 
 1. **Clone o repositório:**
@@ -81,42 +61,15 @@ Um sistema completo de gerenciamento de usuários em Ruby on Rails com funcional
 git clone https://github.com/lucasleandro1/Fullstack-Developer.git
 cd Fullstack-Developer
 ```
-
-2. **Instale as dependências:**
+2. **Rode os comandos:**
 ```bash
-bundle install
-yarn install
+docker compose build
+docker compose up
 ```
-
-3. **Configure o banco de dados:**
-```bash
-rails db:create
-rails db:migrate
-rails db:seed
-```
-
-4. **Inicie o servidor:**
-```bash
-./bin/dev
-# ou separadamente:
-rails server
-yarn build --watch
-```
-
 5. **Acesse a aplicação:**
 ```
 http://localhost:3000
 ```
-
-### Usuários de Teste
-
-Após rodar `rails db:seed`, você terá acesso a:
-
-| Email | Senha | Role | Descrição |
-|-------|--------|------|-----------|
-| `admin@example.com` | `password123` | Admin | Acesso total ao sistema |
-| `manager@example.com` | `password123` | Manager | Gerenciamento de usuários |
-| `user@example.com` | `password123` | User | Acesso básico |
 
 ## 📖 Como Usar
 

@@ -4,7 +4,6 @@
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <% if @import&.persisted? %>
-        <!-- Success State -->
         <div class="card text-center">
           <div class="card-body py-5">
             <div class="success-icon mb-4">
@@ -56,8 +55,7 @@
             </div>
           </div>
         </div>
-        
-        <!-- Processing Information -->
+
         <div class="card mt-4">
           <div class="card-header">
             <h5 class="card-title mb-0">
@@ -108,8 +106,7 @@
             </div>
           </div>
         </div>
-        
-        <!-- Live Updates Card -->
+
         <div class="card mt-4">
           <div class="card-header">
             <h5 class="card-title mb-0">
@@ -153,7 +150,6 @@
         </div>
         
       <% else %>
-        <!-- Error State -->
         <div class="card text-center">
           <div class="card-body py-5">
             <div class="error-icon mb-4">
@@ -187,8 +183,7 @@
             </div>
           </div>
         </div>
-        
-        <!-- Troubleshooting -->
+
         <div class="card mt-4">
           <div class="card-header">
             <h5 class="card-title mb-0">
@@ -220,8 +215,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const importId = <%= @import.id %>;
-      
-      // Create ActionCable subscription for real-time updates
+
       if (typeof App !== 'undefined' && App.cable) {
         App.importProgress = App.cable.subscriptions.create({
           channel: "ImportProgressChannel",
@@ -234,15 +228,13 @@
           }
         });
       }
-      
-      // Fallback polling for updates
+
       const updateInterval = setInterval(function() {
         fetch(`/admin/imports/${importId}.json`)
           .then(response => response.json())
           .then(data => {
             updateProgress(data);
-            
-            // Stop polling if completed
+
             if (data.status === 'completed' || data.status === 'failed') {
               clearInterval(updateInterval);
               setTimeout(() => {
@@ -252,15 +244,14 @@
           })
           .catch(error => console.error('Error fetching progress:', error));
       }, 3000);
-      
-      // Redirect to detail page after 30 seconds
+
       setTimeout(() => {
         window.location.href = `/admin/imports/${importId}`;
       }, 30000);
     });
     
     function updateProgress(importData) {
-      // Update progress bar
+
       const progressBar = document.getElementById('progress-bar');
       const progressText = document.getElementById('progress-text');
       const statusText = document.getElementById('status-text');
