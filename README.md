@@ -75,9 +75,11 @@ docker compose up
 ```
 http://localhost:3000
 ```
-5. **Entre com:**
+6. **Entre com:**
+```
 admin@example.com
 password123
+```
 
 ## 📖 Como Usar
 
