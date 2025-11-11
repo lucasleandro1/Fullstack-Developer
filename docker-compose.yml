@@ -38,9 +38,12 @@ services:
       - RAILS_ENV=development
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/user_management_development
       - REDIS_URL=redis://redis:6379/0
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     volumes:
       - .:/rails
       - bundle_cache:/usr/local/bundle
+      - /rails/tmp
+      - /rails/log
     depends_on:
       postgres:
         condition: service_healthy
@@ -48,16 +51,6 @@ services:
         condition: service_healthy
     stdin_open: true
     tty: true
-    command: >
-      bash -c "
-        bundle install &&
-        while ! pg_isready -h postgres -p 5432 -U postgres; do
-          echo 'Aguardando PostgreSQL...'
-          sleep 2
-        done &&
-        bin/rails db:prepare &&
-        bin/rails server -b 0.0.0.0
-      "
 
   # Sidekiq Background Jobs
   sidekiq:
@@ -68,6 +61,7 @@ services:
       - RAILS_ENV=development
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/user_management_development
       - REDIS_URL=redis://redis:6379/0
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     volumes:
       - .:/rails
       - bundle_cache:/usr/local/bundle
@@ -76,15 +70,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: >
-      bash -c "
-        bundle install &&
-        while ! pg_isready -h postgres -p 5432 -U postgres; do
-          echo 'Aguardando PostgreSQL...'
-          sleep 2
-        done &&
-        bundle exec sidekiq
-      "
+      web:
+        condition: service_started
+    command: ["bundle", "exec", "sidekiq"]
 
 volumes:
   postgres_data:

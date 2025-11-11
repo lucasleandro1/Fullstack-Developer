@@ -13,6 +13,9 @@
             <p class="auth-subtitle">Sign in to your account</p>
           </div>
 
+          <%= render 'devise/shared/flash_messages' %>
+          <%= render 'devise/shared/error_messages', resource: resource %>
+
           <%= form_with model: resource, 
                 as: resource_name, 
                 url: session_path(resource_name), 

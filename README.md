@@ -63,9 +63,14 @@ cd Fullstack-Developer
 ```
 2. **Rode os comandos:**
 ```bash
+cp .env.example .env
+```
+## Adicione sua master key no .env
+```bash
 docker compose build
 docker compose up
 ```
+
 5. **Acesse a aplicação:**
 ```
 http://localhost:3000

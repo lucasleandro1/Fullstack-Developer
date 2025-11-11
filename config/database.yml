@@ -13,13 +13,17 @@
 # gem "pg"
 #
 default: &default
-  adapter: sqlite3
+  adapter: <%= ENV['DATABASE_URL'] ? 'postgresql' : 'sqlite3' %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
   <<: *default
+  <% if ENV['DATABASE_URL'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  <% else %>
   database: storage/development.sqlite3
+  <% end %>
 
 test:
   <<: *default
