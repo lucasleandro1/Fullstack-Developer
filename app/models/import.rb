@@ -2,14 +2,12 @@ class Import < ApplicationRecord
   belongs_to :user
   has_one_attached :file
 
-  # Status enum
   STATUSES = %w[pending processing completed failed].freeze
 
   validates :file_name, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :progress, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
-  # Set default values
   after_initialize :set_defaults, if: :new_record?
 
   scope :recent, -> { order(created_at: :desc) }
@@ -29,7 +27,6 @@ class Import < ApplicationRecord
 
   public
 
-  # Status helpers
   def pending?
     status == "pending"
   end
@@ -46,7 +43,6 @@ class Import < ApplicationRecord
     status == "failed"
   end
 
-  # Progress calculation
   def calculate_progress
     return 0 if total_rows.zero?
     ((processed_rows.to_f / total_rows) * 100).round(2)
@@ -57,7 +53,6 @@ class Import < ApplicationRecord
     save!
   end
 
-  # Error handling
   def add_error(error_message)
     self.error_details = error_details.to_s + "\n#{Time.current}: #{error_message}"
     save!
@@ -68,7 +63,6 @@ class Import < ApplicationRecord
     ((successful_rows.to_f / processed_rows) * 100).round(2)
   end
 
-  # Display helpers
   def display_status
     status.humanize
   end

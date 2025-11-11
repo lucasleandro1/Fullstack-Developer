@@ -1,4 +1,33 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'simplecov'
+SimpleCov.start 'rails' do
+  minimum_coverage 90
+
+  # Não contar cobertura dos testes
+  add_filter '/spec/'
+
+  # Excluir coisas que não devem ser avaliadas
+  add_filter '/config/'
+  add_filter '/vendor/'
+  add_filter '/bin/'
+  add_filter '/lib/'
+  add_filter '/app/helpers/'
+  add_filter '/app/mailers/'
+  add_filter '/app/channels/'
+  add_filter '/app/services/'
+  add_filter '/app/serializers/'
+  add_filter '/app/policies/'
+  add_filter '/app/assets/'
+  add_filter '/app/views/'
+  add_filter '/app/controllers/concerns/'
+  add_filter '/app/models/concerns/'
+
+  # Somente estes dois grupos contam cobertura
+  add_group 'Models',      'app/models'
+  add_group 'Controllers', 'app/controllers'
+end
+
+
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'

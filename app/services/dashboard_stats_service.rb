@@ -62,7 +62,6 @@ class DashboardStatsService < ApplicationService
   end
 
   def growth_statistics
-    # Calculate user growth over the last 30 days
     growth_data = (0..29).map do |days_ago|
       date = days_ago.days.ago.to_date
       {
