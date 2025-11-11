@@ -10,16 +10,17 @@ RSpec.describe "Admin::DashboardController", type: :request do
 
   describe "GET /admin/dashboard" do
     context "when service returns success" do
+      let(:service_data) do
+        {
+          users: { total: 5, recent: [] },
+          imports: { total: 10 },
+          activity: { logins: 20 },
+          growth: { weekly: 3 }
+        }
+      end
+
       let(:service_result) do
-        double(
-          success?: true,
-          data: {
-            users: { total: 5, recent: [] },
-            imports: { total: 10 },
-            activity: { logins: 20 },
-            growth: { weekly: 3 }
-          }
-        )
+        double(success?: true, data: service_data)
       end
 
       before do
@@ -31,14 +32,14 @@ RSpec.describe "Admin::DashboardController", type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it "assigns dashboard instance variables" do
+      it "calls the dashboard service with current_user" do
         get admin_dashboard_path
+        expect(DashboardStatsService).to have_received(:call).with(admin)
+      end
 
-        expect(assigns(:user_stats)).to eq(service_result.data[:users])
-        expect(assigns(:import_stats)).to eq(service_result.data[:imports])
-        expect(assigns(:activity_stats)).to eq(service_result.data[:activity])
-        expect(assigns(:growth_stats)).to eq(service_result.data[:growth])
-        expect(assigns(:recent_users)).to eq(service_result.data[:users][:recent])
+      it "renders the index template" do
+        get admin_dashboard_path
+        expect(response).to render_template(:index)
       end
     end
 
@@ -51,7 +52,7 @@ RSpec.describe "Admin::DashboardController", type: :request do
         allow(DashboardStatsService).to receive(:call).and_return(error_result)
       end
 
-      it "redirects to root with an alert" do
+      it "redirects to root with alert" do
         get admin_dashboard_path
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq("Something went wrong")

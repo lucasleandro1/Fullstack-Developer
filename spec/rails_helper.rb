@@ -3,10 +3,7 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   minimum_coverage 90
 
-  # Não contar cobertura dos testes
   add_filter '/spec/'
-
-  # Excluir coisas que não devem ser avaliadas
   add_filter '/config/'
   add_filter '/vendor/'
   add_filter '/bin/'
@@ -22,8 +19,7 @@ SimpleCov.start 'rails' do
   add_filter '/app/controllers/concerns/'
   add_filter '/app/models/concerns/'
 
-  # Somente estes dois grupos contam cobertura
-  add_group 'Models',      'app/models'
+  add_group 'Models', 'app/models'
   add_group 'Controllers', 'app/controllers'
 end
 
@@ -86,11 +82,8 @@ RSpec.configure do |config|
     end
   end
 
-  # Shoulda Matchers configuration
   config.include(Shoulda::Matchers::ActiveModel, type: :model)
   config.include(Shoulda::Matchers::ActiveRecord, type: :model)
-
-  # Devise helpers for testing
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
 end
